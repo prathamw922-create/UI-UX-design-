@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartHire AI - Next Gen Recruitment</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader-content">
+            <div class="cube-loader">
+                <div class="cube-top"></div>
+                <div class="cube-wrapper">
+                    <span style="--i:0" class="cube-span"></span>
+                    <span style="--i:1" class="cube-span"></span>
+                    <span style="--i:2" class="cube-span"></span>
+                    <span style="--i:3" class="cube-span"></span>
+                </div>
+            </div>
+            <h1>SmartHire.AI</h1>
+            <p>Scanning Talent Universe...</p>
+        </div>
+    </div>
+
+    <!-- Landing Page (Hero Section) -->
+    <section id="landing-page" class="landing-section">
+        <nav class="landing-nav glass-nav">
+            <div class="logo">
+                <ion-icon name="prism-outline" class="neon-icon"></ion-icon>
+                <span>SmartHire.AI</span>
+            </div>
+            <div class="landing-links">
+                <a href="#">Simplicity</a>
+                <a href="#">AI Features</a>
+                <a href="#">Pricing</a>
+            </div>
+            <button id="landing-login-btn" class="btn-primary glow-btn">Login / Sign Up</button>
+        </nav>
+
+        <div class="hero-content">
+            <h1 class="hero-title">Recruitment <span class="neon-text-cyan">Reimagined</span> with AI</h1>
+            <p class="hero-subtitle">Automate your hiring process, analyze resumes instantly, and find the perfect
+                candidate with our advanced AI-driven platform.</p>
+            <div class="hero-actions">
+                <button class="btn-primary glow-btn large">Get Started Free</button>
+                <button class="btn-secondary glow-btn large">Watch Demo</button>
+            </div>
+
+            <div class="hero-stats glass-card float-anim">
+                <div class="stat-item">
+                    <h3 class="counter" data-target="500">0</h3>
+                    <p>Companies</p>
+                </div>
+                <div class="stat-separator"></div>
+                <div class="stat-item">
+                    <h3 class="counter" data-target="12000">0</h3>
+                    <p>Candidates Placed</p>
+                </div>
+                <div class="stat-separator"></div>
+                <div class="stat-item">
+                    <h3>98%</h3>
+                    <p>AI Accuracy</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Auth Overlay -->
+    <div id="auth-overlay" class="auth-wrapper hidden">
+        <div class="auth-card glass-card">
+            <div class="auth-close" id="auth-close"><ion-icon name="close-outline"></ion-icon></div>
+            <div class="auth-header">
+                <h2>Welcome Back</h2>
+                <p>Select your role to continue</p>
+            </div>
+
+            <div class="role-selector">
+                <div class="role-option active" data-role="candidate">
+                    <ion-icon name="person-outline"></ion-icon>
+                    <span>Candidate</span>
+                </div>
+                <div class="role-option" data-role="recruiter">
+                    <ion-icon name="briefcase-outline"></ion-icon>
+                    <span>Recruiter</span>
+                </div>
+            </div>
+
+            <form id="login-form">
+                <div class="input-group">
+                    <ion-icon name="mail-outline"></ion-icon>
+                    <input type="email" placeholder="Email Address" required>
+                </div>
+                <div class="input-group">
+                    <ion-icon name="lock-closed-outline"></ion-icon>
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn-primary glow-btn">Access Dashboard</button>
+            </form>
+            <div class="auth-footer">
+                <p>Don't have an account? <a href="#">Register Now</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app-container" class="app-hidden">
+
+        <!-- Sidebar -->
+        <aside class="sidebar glass-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <ion-icon name="prism-outline" class="neon-icon"></ion-icon>
+                    <span class="logo-text">SmartHire</span>
+                </div>
+                <div id="sidebar-toggle" class="sidebar-toggle">
+                    <ion-icon name="chevron-back-outline"></ion-icon>
+                </div>
+            </div>
+
+            <ul class="nav-links">
+                <!-- Common Links -->
+                <li class="active" data-section="dashboard">
+                    <ion-icon name="grid-outline"></ion-icon>
+                    <span class="link-text">Dashboard</span>
+                </li>
+
+                <!-- Recruiter Specific -->
+                <li class="recruiter-only hidden" data-section="job-posts">
+                    <ion-icon name="list-outline"></ion-icon>
+                    <span class="link-text">My Jobs</span>
+                </li>
+                <li class="recruiter-only hidden" data-section="candidates">
+                    <ion-icon name="people-outline"></ion-icon>
+                    <span class="link-text">Candidates</span>
+                </li>
+
+                <!-- Candidate Specific -->
+                <li class="candidate-only" data-section="job-search">
+                    <ion-icon name="search-outline"></ion-icon>
+                    <span class="link-text">Find Jobs</span>
+                </li>
+                <li class="candidate-only" data-section="resume-analyzer">
+                    <ion-icon name="document-text-outline"></ion-icon>
+                    <span class="link-text">AI Resume Check</span>
+                </li>
+
+                <!-- Common Again -->
+                <li data-section="messages">
+                    <ion-icon name="chatbubbles-outline"></ion-icon>
+                    <span class="link-text">Messages</span>
+                </li>
+                <li data-section="profile">
+                    <ion-icon name="person-circle-outline"></ion-icon>
+                    <span class="link-text">Profile</span>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="logout-btn">
+                    <ion-icon name="log-out-outline"></ion-icon>
+                    <span class="link-text">Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Top Header -->
+            <header class="top-header glass-header">
+                <div class="header-left">
+                    <h2 id="page-title">Dashboard</h2>
+                    <p id="page-subtitle" class="text-muted">Overview of your activity</p>
+                </div>
+                <div class="header-right">
+                    <div class="search-box glass-input">
+                        <ion-icon name="search-outline"></ion-icon>
+                        <input type="text" placeholder="Search...">
+                    </div>
+                    <div class="notifications">
+                        <ion-icon name="notifications-outline"></ion-icon>
+                        <span class="badge">4</span>
+                    </div>
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Alex+User&background=0D8ABC&color=fff" alt="User">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Sections Container -->
+            <div class="content-wrapper">
+
+                <!-- DASHBOARD SECTION (Dynamic content based on role) -->
+                <section id="dashboard" class="section active">
+                    <!-- Recruiter Dashboard View -->
+                    <div id="recruiter-dashboard" class="dashboard-view hidden">
+                        <div class="stats-grid">
+                            <div class="stat-card glass-card float-anim delay-1">
+                                <div class="icon-box cyan"><ion-icon name="briefcase"></ion-icon></div>
+                                <div class="stat-info">
+                                    <h3>Active Jobs</h3>
+                                    <p class="number">12</p>
+                                </div>
+                            </div>
+                            <div class="stat-card glass-card float-anim delay-2">
+                                <div class="icon-box blue"><ion-icon name="people"></ion-icon></div>
+                                <div class="stat-info">
+                                    <h3>Total Applicants</h3>
+                                    <p class="number">1,245</p>
+                                </div>
+                            </div>
+                            <div class="stat-card glass-card float-anim delay-3">
+                                <div class="icon-box purple"><ion-icon name="chatbox-ellipses"></ion-icon></div>
+                                <div class="stat-info">
+                                    <h3>Interviews</h3>
+                                    <p class="number">8</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="charts-row">
+                            <div class="chart-card glass-card span-2">
+                                <h3>Application Trends</h3>
+                                <canvas id="recruiterChart"></canvas>
+                            </div>
+                            <div class="list-card glass-card">
+                                <h3>Recent Applicants</h3>
+                                <ul class="recent-list">
+                                    <li>
+                                        <img src="https://ui-avatars.com/api/?name=John+Doe&background=random" alt="">
+                                        <div class="details">
+                                            <h4>John Doe</h4>
+                                            <p>UX Designer • 98% Match</p>
+                                        </div>
+                                        <button class="btn-xs">View</button>
+                                    </li>
+                                    <li>
+                                        <img src="https://ui-avatars.com/api/?name=Jane+Smith&background=random" alt="">
+                                        <div class="details">
+                                            <h4>Jane Smith</h4>
+                                            <p>Frontend Dev • 92% Match</p>
+                                        </div>
+                                        <button class="btn-xs">View</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Candidate Dashboard View -->
+                    <div id="candidate-dashboard" class="dashboard-view">
+                        <div class="welcome-banner glass-card">
+                            <div class="banner-text">
+                                <h2>Find Your Dream Job Today!</h2>
+                                <p>AI-powered suggestions based on your profile.</p>
+                                <button class="btn-primary glow-btn">Explore Jobs</button>
+                            </div>
+                            <img src="https://cdn-icons-png.flaticon.com/512/2910/2910768.png" alt="Rocket"
+                                class="floating-img">
+                        </div>
+
+                        <div class="stats-grid mt-20">
+                            <div class="stat-card glass-card">
+                                <div class="icon-box cyan"><ion-icon name="send"></ion-icon></div>
+                                <div class="stat-info">
+                                    <h3>Applied</h3>
+                                    <p class="number">24</p>
+                                </div>
+                            </div>
+                            <div class="stat-card glass-card">
+                                <div class="icon-box purple"><ion-icon name="eye"></ion-icon></div>
+                                <div class="stat-info">
+                                    <h3>Profile Views</h3>
+                                    <p class="number">156</p>
+                                </div>
+                            </div>
+                            <div class="stat-card glass-card">
+                                <div class="icon-box blue"><ion-icon name="star"></ion-icon></div>
+                                <div class="stat-info">
+                                    <h3>Shortlisted</h3>
+                                    <p class="number">5</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="charts-row mt-20">
+                            <div class="chart-card glass-card span-2">
+                                <h3>Profile Strength</h3>
+                                <canvas id="candidateChart"></canvas>
+                            </div>
+                            <div class="list-card glass-card">
+                                <h3>Recommended Jobs</h3>
+                                <ul class="recent-list">
+                                    <li>
+                                        <div class="logo-box">G</div>
+                                        <div class="details">
+                                            <h4>Senior React Dev</h4>
+                                            <p>Google • Remote</p>
+                                        </div>
+                                        <span class="match-score">98% Match</span>
+                                    </li>
+                                    <li>
+                                        <div class="logo-box">A</div>
+                                        <div class="details">
+                                            <h4>Product Designer</h4>
+                                            <p>Airbnb • San Francisco</p>
+                                        </div>
+                                        <span class="match-score">95% Match</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- JOB SEARCH SECTION -->
+                <section id="job-search" class="section">
+                    <div class="filters glass-card">
+                        <div class="filter-group">
+                            <ion-icon name="search"></ion-icon>
+                            <input type="text" id="job-keyword" placeholder="Job title, keywords...">
+                        </div>
+                        <div class="filter-group">
+                            <ion-icon name="location"></ion-icon>
+                            <input type="text" id="job-location" placeholder="Location">
+                        </div>
+                        <button class="btn-primary" id="search-jobs-btn">Search</button>
+                    </div>
+
+                    <div class="jobs-grid mt-20" id="jobs-container">
+                        <!-- Jobs will be injected here via JS -->
+                    </div>
+                </section>
+
+                <!-- AI RESUME ANALYZER -->
+                <section id="resume-analyzer" class="section">
+                    <div class="analyzer-container glass-card">
+                        <h2>AI Resume Analyzer</h2>
+                        <p>Upload your resume to get instant feedback and improvement suggestions.</p>
+
+                        <div class="upload-area" id="drop-zone">
+                            <ion-icon name="cloud-upload-outline"></ion-icon>
+                            <h3>Drag & Drop or Click to Upload</h3>
+                            <p>Supports PDF, DOCX (Max 5MB)</p>
+                            <input type="file" id="resume-upload" hidden>
+                        </div>
+
+                        <div class="analysis-result hidden" id="analysis-result">
+                            <div class="score-circle">
+                                <svg>
+                                    <circle cx="70" cy="70" r="70"></circle>
+                                    <circle cx="70" cy="70" r="70" id="score-circle"></circle>
+                                </svg>
+                                <div class="number">
+                                    <h2>85<span>%</span></h2>
+                                </div>
+                            </div>
+                            <div class="feedback-list">
+                                <h3>AI Feedback</h3>
+                                <ul>
+                                    <li class="good"><ion-icon name="checkmark-circle"></ion-icon> Strong action verbs
+                                        used.</li>
+                                    <li class="good"><ion-icon name="checkmark-circle"></ion-icon> Clear contact
+                                        information.</li>
+                                    <li class="warning"><ion-icon name="alert-circle"></ion-icon> Consider adding more
+                                        quantitative results.</li>
+                                    <li class="warning"><ion-icon name="alert-circle"></ion-icon> Skills section could
+                                        be more specific.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- MESSAGES SECTION -->
+                <section id="messages" class="section">
+                    <div class="chat-layout glass-card">
+                        <div class="chat-sidebar">
+                            <div class="chat-search">
+                                <input type="text" placeholder="Search chats...">
+                            </div>
+                            <div class="chat-list">
+                                <div class="chat-item active">
+                                    <img src="https://ui-avatars.com/api/?name=HR+Manager&background=random" alt="">
+                                    <div class="chat-info">
+                                        <h4>Sarah Connor</h4>
+                                        <p>HR @ Cyberdyne</p>
+                                    </div>
+                                    <span class="time">12:30</span>
+                                </div>
+                                <div class="chat-item">
+                                    <img src="https://ui-avatars.com/api/?name=Recruiter+Bob&background=random" alt="">
+                                    <div class="chat-info">
+                                        <h4>Bob Smith</h4>
+                                        <p>Tech Recruiter</p>
+                                    </div>
+                                    <span class="time">Yesterday</span>
+                                </div>
+                                <div class="chat-item">
+                                    <img src="https://ui-avatars.com/api/?name=Alice+Wonder&background=random" alt="">
+                                    <div class="chat-info">
+                                        <h4>Alice Wonder</h4>
+                                        <p>Product Manager</p>
+                                    </div>
+                                    <span class="time">2 days ago</span>
+                                </div>
+                                <div class="chat-item">
+                                    <img src="https://ui-avatars.com/api/?name=John+Wick&background=random" alt="">
+                                    <div class="chat-info">
+                                        <h4>John Wick</h4>
+                                        <p>Security Consultant</p>
+                                    </div>
+                                    <span class="time">3 days ago</span>
+                                </div>
+                                <div class="chat-item">
+                                    <img src="https://ui-avatars.com/api/?name=Elon+Musk&background=random" alt="">
+                                    <div class="chat-info">
+                                        <h4>Elon Musk</h4>
+                                        <p>CEO @ Tesla</p>
+                                    </div>
+                                    <span class="time">1 week ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-main">
+                            <div class="chat-header">
+                                <h4>Sarah Connor</h4>
+                                <p class="status">Online</p>
+                            </div>
+                            <div class="chat-messages" id="chat-messages">
+                                <div class="message received">
+                                    <p>Hi! We reviewed your application and would like to schedule an interview.</p>
+                                    <span class="msg-time">12:30 PM</span>
+                                </div>
+                                <div class="message sent">
+                                    <p>That sounds great! I am available strictly next Tuesday.</p>
+                                    <span class="msg-time">12:32 PM</span>
+                                </div>
+                            </div>
+                            <div class="chat-input local-input-area">
+                                <input type="text" id="message-input" placeholder="Type a message...">
+                                <button id="send-message-btn"><ion-icon name="send"></ion-icon></button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PROFILE SECTION -->
+                <section id="profile" class="section">
+                    <div class="profile-container glass-card">
+                        <div class="profile-header-bg"></div>
+                        <div class="profile-content">
+                            <img src="https://ui-avatars.com/api/?name=Alex+User&size=150" alt="Profile"
+                                class="big-avatar">
+                            <h2>Alex User</h2>
+                            <p>Full Stack Developer</p>
+                            <div class="tags mt-10">
+                                <span>React</span>
+                                <span>Node.js</span>
+                                <span>Python</span>
+                            </div>
+
+                            <div class="profile-details mt-20">
+                                <div class="detail-row">
+                                    <span class="label">Email:</span>
+                                    <span class="value" id="profile-email">alex.user@example.com</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="label">Phone:</span>
+                                    <span class="value" id="profile-phone">+1 234 567 8900</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="label">Location:</span>
+                                    <span class="value" id="profile-location">San Francisco, CA</span>
+                                </div>
+                            </div>
+
+                            <div class="profile-actions mt-20">
+                                <button class="btn-secondary" id="edit-profile-btn">Edit Profile</button>
+                                <button class="btn-secondary" id="upload-resume-btn">Upload Resume</button>
+                                <input type="file" id="hidden-resume-input" hidden>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- RECRUITER: MY JOBS SECTION -->
+                <section id="job-posts" class="section">
+                    <div class="glass-card">
+                        <div class="card-header">
+                            <h2>My Job Postings</h2>
+                            <button class="btn-primary glow-btn">+ Post New Job</button>
+                        </div>
+                        <div class="table-responsive mt-20">
+                            <table class="job-table">
+                                <thead>
+                                    <tr>
+                                        <th>Job Title</th>
+                                        <th>Applicants</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Senior React Developer</td>
+                                        <td>45</td>
+                                        <td><span class="status active">Active</span></td>
+                                        <td><button class="btn-xs">Edit</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>UX Researcher</td>
+                                        <td>12</td>
+                                        <td><span class="status closed">Closed</span></td>
+                                        <td><button class="btn-xs">View</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- RECRUITER: CANDIDATES SECTION -->
+                <section id="candidates" class="section">
+                    <div class="glass-card">
+                        <h2>Candidate Database</h2>
+                        <div class="filters mt-10">
+                            <input type="text" placeholder="Search candidates..." class="glass-input full-width">
+                        </div>
+                        <div class="candidate-grid mt-20">
+                            <!-- Candidate Card -->
+                            <div class="candidate-card glass-card">
+                                <img src="https://ui-avatars.com/api/?name=Alice+Wonder&background=random" alt="">
+                                <h3>Alice Wonder</h3>
+                                <p>Product Manager</p>
+                                <div class="skills-tags">
+                                    <span>Agile</span><span>Jira</span><span>Roadmaps</span>
+                                </div>
+                                <div class="actions mt-10">
+                                    <button class="btn-primary btn-sm">Contact</button>
+                                    <button class="btn-secondary btn-sm">View Profile</button>
+                                </div>
+                            </div>
+                            <!-- Candidate Card -->
+                            <div class="candidate-card glass-card">
+                                <img src="https://ui-avatars.com/api/?name=Bob+Builder&background=random" alt="">
+                                <h3>Bob Builder</h3>
+                                <p>Civil Engineer</p>
+                                <div class="skills-tags">
+                                    <span>CAD</span><span>Project Mgmt</span>
+                                </div>
+                                <div class="actions mt-10">
+                                    <button class="btn-primary btn-sm">Contact</button>
+                                    <button class="btn-secondary btn-sm">View Profile</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
