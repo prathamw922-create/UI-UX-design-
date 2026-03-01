@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dashboard-body">
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <h2>MyBank</h2>
+        <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+        <ul>
+            <li onclick="showSection('dashboard', event)" class="active">Dashboard</li>
+            <li onclick="showSection('transfer', event)">Transfer</li>
+            <li onclick="showSection('transactions', event)">Transactions</li>
+            <li onclick="showSection('profile', event)">Profile</li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+
+        <!-- Dashboard -->
+        <div id="dashboard" class="section active">
+            <div class="card floating">
+                <h3>Account Balance</h3>
+                <p class="balance">₹ 45,000</p>
+            </div>
+
+            <div class="card floating">
+                <h3>Spending Overview</h3>
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Transfer -->
+        <div id="transfer" class="section">
+            <div class="card floating">
+                <h3>Transfer Money</h3>
+                <input type="text" id="recipient" placeholder="Recipient Name">
+                <input type="number" id="amount" placeholder="Amount">
+                <button onclick="transfer()">Send Money</button>
+            </div>
+        </div>
+
+        <!-- Transactions -->
+        <div id="transactions" class="section">
+            <div class="card floating">
+                <h3>Transaction History</h3>
+                <table>
+                    <tr>
+                        <th>Date</th>
+                        <th>Details</th>
+                        <th>Amount</th>
+                    </tr>
+                    <tr>
+                        <td>10 Feb</td>
+                        <td>Amazon</td>
+                        <td>₹2000</td>
+                    </tr>
+                    <tr>
+                        <td>12 Feb</td>
+                        <td>Recharge</td>
+                        <td>₹500</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Profile -->
+        <div id="profile" class="section">
+            <div class="card floating">
+                <h3>User Profile</h3>
+                <p>Name: Rahul Sharma</p>
+                <p>Account No: 1234567890</p>
+                <p>Email: rahul@email.com</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
