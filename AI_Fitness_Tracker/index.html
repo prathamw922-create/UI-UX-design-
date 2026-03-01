@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIT AI - Premium Fitness Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader-content">
+            <div class="loader-circle"></div>
+            <h1>FIT.AI</h1>
+            <p>Initializing Your Dashboard...</p>
+        </div>
+    </div>
+
+    <!-- Login / Signup Overlay -->
+    <div id="auth-overlay" class="auth-overlay active">
+        <div class="auth-card glass-card">
+            <div class="auth-header">
+                <h2>Welcome Back</h2>
+                <p>Sign in to access your fitness journey</p>
+            </div>
+            <form id="login-form">
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" placeholder="Email Address" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn-primary glow-btn">Sign In</button>
+            </form>
+            <div class="auth-footer">
+                <p>New member? <a href="#" id="switch-to-signup">Create Account</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app-container" class="app-hidden">
+
+        <!-- Sidebar -->
+        <nav class="sidebar glass-sidebar">
+            <div class="logo">
+                <i class="fas fa-bolt neon-icon"></i>
+                <span>FIT.AI</span>
+            </div>
+            <ul class="nav-links">
+                <li class="active" data-section="dashboard">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </li>
+                <li data-section="workouts">
+                    <i class="fas fa-dumbbell"></i>
+                    <span>Workouts</span>
+                </li>
+                <li data-section="diet">
+                    <i class="fas fa-apple-alt"></i>
+                    <span>Diet Plan</span>
+                </li>
+                <li data-section="progress">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Progress</span>
+                </li>
+                <li data-section="profile">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+
+            <!-- Navbar / Header -->
+            <header class="top-bar glass-header">
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="welcome-text">
+                    <h2>Hello, Alex! 👋</h2>
+                    <p>Ready to crush your goals today?</p>
+                </div>
+                <div class="header-actions">
+                    <div class="search-bar glass-input">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search workouts...">
+                    </div>
+                    <div class="notification-bell">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    <div class="user-avatar">
+                        <img src="https://ui-avatars.com/api/?name=Alex+Doe&background=7000ff&color=fff" alt="User">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Sections Container -->
+            <div class="sections-wrapper">
+
+                <!-- DASHBOARD SECTION -->
+                <section id="dashboard" class="section active">
+                    <div class="dashboard-grid">
+                        <!-- Stats Cards -->
+                        <div class="stat-card glass-card float-anim delay-1">
+                            <div class="card-icon fire">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <div class="card-info">
+                                <h3>Calories Burned</h3>
+                                <p class="big-number">840 <span>kcal</span></p>
+                                <div class="progress-bar-sm">
+                                    <div class="fill" style="width: 75%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card glass-card float-anim delay-2">
+                            <div class="card-icon heart">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <div class="card-info">
+                                <h3>Heart Rate</h3>
+                                <p class="big-number">112 <span>bpm</span></p>
+                                <div class="chart-mini">
+                                    <!-- Mini chart canvas placeholder -->
+                                    <canvas id="heartRateMiniChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card glass-card float-anim delay-3">
+                            <div class="card-icon steps">
+                                <i class="fas fa-shoe-prints"></i>
+                            </div>
+                            <div class="card-info">
+                                <h3>Steps Today</h3>
+                                <p class="big-number">6,240 <span>steps</span></p>
+                                <div class="progress-bar-sm">
+                                    <div class="fill" style="width: 60%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Main Activity Chart -->
+                        <div class="main-chart-card glass-card span-2 float-anim delay-4">
+                            <div class="card-header">
+                                <h3>Weekly Activity</h3>
+                                <select class="glass-select">
+                                    <option>This Week</option>
+                                    <option>Last Week</option>
+                                </select>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="activityChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Today's Schedule -->
+                        <div class="schedule-card glass-card float-anim delay-5">
+                            <h3>Today's Schedule</h3>
+                            <ul class="schedule-list">
+                                <li>
+                                    <div class="time">07:00 AM</div>
+                                    <div class="task">
+                                        <h4>Morning Yoga</h4>
+                                        <p>30 mins • Low Intensity</p>
+                                    </div>
+                                    <div class="status check"><i class="fas fa-check"></i></div>
+                                </li>
+                                <li>
+                                    <div class="time">05:30 PM</div>
+                                    <div class="task">
+                                        <h4>HIIT Cardio</h4>
+                                        <p>45 mins • High Intensity</p>
+                                    </div>
+                                    <div class="status pending"><i class="fas fa-clock"></i></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- WORKOUTS SECTION -->
+                <section id="workouts" class="section">
+                    <div class="section-header">
+                        <h2>Your Workout Plans</h2>
+                        <button class="btn-primary glow-btn">+ New Plan</button>
+                    </div>
+                    <div class="workouts-grid">
+                        <div class="workout-card glass-card h-effect">
+                            <div class="workout-img"
+                                style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');">
+                            </div>
+                            <div class="workout-details">
+                                <span class="tag strength">Strength</span>
+                                <h3>Full Body Power</h3>
+                                <div class="meta">
+                                    <span><i class="fas fa-clock"></i> 45 min</span>
+                                    <span><i class="fas fa-burn"></i> 320 kcal</span>
+                                </div>
+                                <button class="btn-secondary">Start Workout</button>
+                            </div>
+                        </div>
+                        <div class="workout-card glass-card h-effect">
+                            <div class="workout-img"
+                                style="background-image: url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');">
+                            </div>
+                            <div class="workout-details">
+                                <span class="tag cardio">Cardio</span>
+                                <h3>HIIT Blast</h3>
+                                <div class="meta">
+                                    <span><i class="fas fa-clock"></i> 30 min</span>
+                                    <span><i class="fas fa-burn"></i> 450 kcal</span>
+                                </div>
+                                <button class="btn-secondary">Start Workout</button>
+                            </div>
+                        </div>
+                        <!-- Add more workout cards as needed -->
+                    </div>
+                </section>
+
+                <!-- DIET SECTION -->
+                <section id="diet" class="section">
+                    <div class="section-header">
+                        <h2>Diet Recommendation</h2>
+                    </div>
+                    <div class="diet-grid">
+                        <div class="macro-summary glass-card">
+                            <h3>Daily Macros</h3>
+                            <div class="macro-item">
+                                <span>Protein</span>
+                                <div class="bar">
+                                    <div class="fill" style="width: 80%; background: #00f2ff;"></div>
+                                </div>
+                                <span>140g / 180g</span>
+                            </div>
+                            <div class="macro-item">
+                                <span>Carbs</span>
+                                <div class="bar">
+                                    <div class="fill" style="width: 50%; background: #ff00de;"></div>
+                                </div>
+                                <span>120g / 240g</span>
+                            </div>
+                            <div class="macro-item">
+                                <span>Fats</span>
+                                <div class="bar">
+                                    <div class="fill" style="width: 30%; background: #7000ff;"></div>
+                                </div>
+                                <span>20g / 65g</span>
+                            </div>
+                        </div>
+                        <div class="meal-plan glass-card">
+                            <h3>Next Meal</h3>
+                            <div class="meal-card">
+                                <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                                    alt="Meal">
+                                <div class="meal-info">
+                                    <h4>Grilled Chicken Salad</h4>
+                                    <p>450 kcal • 40g Protein</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PROGRESS SECTION -->
+                <section id="progress" class="section">
+                    <div class="section-header">
+                        <h2>Your Progress</h2>
+                    </div>
+                    <div class="glass-card big-chart">
+                        <h3>Weight Tracker</h3>
+                        <canvas id="weightChart"></canvas>
+                    </div>
+                </section>
+
+                <!-- PROFILE SECTION -->
+                <section id="profile" class="section">
+                    <div class="profile-card glass-card">
+                        <div class="profile-header">
+                            <img src="https://ui-avatars.com/api/?name=Alex+Doe&background=7000ff&color=fff&size=128"
+                                alt="Profile" class="profile-pic">
+                            <h3>Alex Doe</h3>
+                            <p>Fitness Enthusiast</p>
+                        </div>
+                        <div class="profile-stats">
+                            <div class="stat">
+                                <h4>72 kg</h4>
+                                <p>Weight</p>
+                            </div>
+                            <div class="stat">
+                                <h4>178 cm</h4>
+                                <p>Height</p>
+                            </div>
+                            <div class="stat">
+                                <h4>24</h4>
+                                <p>Age</p>
+                            </div>
+                        </div>
+                        <div class="profile-actions">
+                            <button class="btn-secondary glow-btn">Edit Profile</button>
+                            <button class="btn-secondary glow-btn">Settings</button>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
